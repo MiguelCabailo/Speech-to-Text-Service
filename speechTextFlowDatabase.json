@@ -1,0 +1,83 @@
+[
+    {
+        "id": "7b2bd9bd.c41bf8",
+        "type": "http response",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 571.2793579101562,
+        "y": 379.6385078430176,
+        "wires": []
+    },
+    {
+        "id": "a974b84f.8ad528",
+        "type": "cloudant in",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "cloudant": "",
+        "database": "sit737voiceTranscription",
+        "service": "sit737-speechToText-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 369.11795806884765,
+        "y": 361.96800804138183,
+        "wires": [
+            [
+                "36537731.f544d8",
+                "7b2bd9bd.c41bf8"
+            ]
+        ]
+    },
+    {
+        "id": "af718ee5.8ccf",
+        "type": "inject",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "Retrieve All documents",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 139.64352416992187,
+        "y": 323.21409034729004,
+        "wires": [
+            [
+                "a974b84f.8ad528"
+            ]
+        ]
+    },
+    {
+        "id": "36537731.f544d8",
+        "type": "debug",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "complete": "false",
+        "x": 577.7247467041016,
+        "y": 338.29261589050293,
+        "wires": []
+    },
+    {
+        "id": "1dce9de.c605262",
+        "type": "http in",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "Read All /retrieveall",
+        "url": "/retrieveall",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 131.5754280090332,
+        "y": 372.86995220184326,
+        "wires": [
+            [
+                "a974b84f.8ad528"
+            ]
+        ]
+    }
+]
