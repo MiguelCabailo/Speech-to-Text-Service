@@ -1,0 +1,115 @@
+[
+    {
+        "id": "77a79abd.b1e3b4",
+        "type": "debug",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 755.8593673706055,
+        "y": 855.0330333709717,
+        "wires": []
+    },
+    {
+        "id": "e28687bd.8f7e28",
+        "type": "cloudant in",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "cloudant": "",
+        "database": "sit737voiceTranscription",
+        "service": "sit737-speechToText-cloudantNoSQLDB",
+        "search": "_id_",
+        "design": "",
+        "index": "",
+        "x": 498.6870574951172,
+        "y": 756.6849422454834,
+        "wires": [
+            [
+                "2cb39987.421856",
+                "743ae5dd.1f08fc",
+                "77a79abd.b1e3b4"
+            ]
+        ]
+    },
+    {
+        "id": "2fa895d4.2496ba",
+        "type": "inject",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "Delete Document By Id",
+        "topic": "",
+        "payload": "id here",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 260.4635009765625,
+        "y": 724.3099689483643,
+        "wires": [
+            [
+                "e28687bd.8f7e28"
+            ]
+        ]
+    },
+    {
+        "id": "2cb39987.421856",
+        "type": "cloudant out",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "delete from database",
+        "cloudant": "",
+        "database": "sit737voiceTranscription",
+        "service": "sit737-speechToText-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "delete",
+        "x": 768.0210418701172,
+        "y": 755.3707609176636,
+        "wires": []
+    },
+    {
+        "id": "743ae5dd.1f08fc",
+        "type": "http response",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 751.1075210571289,
+        "y": 806.1597690582275,
+        "wires": []
+    },
+    {
+        "id": "a0eac90d.d2f138",
+        "type": "function",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "msg.payload = param1",
+        "func": "//msg.payload = \"https://aacapps.com/lamp/sound/nicole.mp3\";\nmsg.payload = msg.payload.param1;\n\n\n//flow.set('res',msg.res);\n//flow.set('_msgid',msg._msgid);\n//flow.set('req',msg.req);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 266.4716796875,
+        "y": 791.8917293548584,
+        "wires": [
+            [
+                "e28687bd.8f7e28"
+            ]
+        ]
+    },
+    {
+        "id": "99d76ea1.500da",
+        "type": "http in",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "url": "/deleteitem",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 95.64604949951172,
+        "y": 843.3487615585327,
+        "wires": [
+            [
+                "a0eac90d.d2f138"
+            ]
+        ]
+    }
+]
