@@ -1,0 +1,225 @@
+[
+    {
+        "id": "5ae4f5a3.fdf38c",
+        "type": "debug",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 596.5,
+        "y": 262,
+        "wires": []
+    },
+    {
+        "id": "949920f3.a7d1d",
+        "type": "function",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "msg.payload = param1",
+        "func": "//msg.payload = \"https://aacapps.com/lamp/sound/nicole.mp3\";\n//msg.payload = String(msg.payload.param1);\n//backup for 3rd button: https://archive.org/download/SampleVoiceRecordings-KimBorge/SampleVoices-KimBorge.flac\n\nmsg.payload = msg.payload.param1;\n\n/*\nflow.set('res',msg.res);\nflow.set('_msgid',msg._msgid);\nflow.set('req',msg.req);\n*/\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 404.9632263183594,
+        "y": 216.05621337890625,
+        "wires": [
+            [
+                "90193fb3.a772f",
+                "5ae4f5a3.fdf38c"
+            ]
+        ]
+    },
+    {
+        "id": "70ec5496.855f6c",
+        "type": "http in",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "Create /speechtotext (POST)",
+        "url": "/speechtotext",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 125,
+        "y": 217.17852306365967,
+        "wires": [
+            [
+                "949920f3.a7d1d"
+            ]
+        ]
+    },
+    {
+        "id": "90193fb3.a772f",
+        "type": "watson-speech-to-text",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "alternatives": 1,
+        "speakerlabels": false,
+        "smartformatting": false,
+        "lang": "en-US",
+        "langhidden": "en-US",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "band": "NarrowbandModel",
+        "bandhidden": "NarrowbandModel",
+        "password": "",
+        "payload-response": true,
+        "streaming-mode": false,
+        "streaming-mute": true,
+        "discard-listening": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://stream.watsonplatform.net/speech-to-text/api",
+        "x": 576.8162841796875,
+        "y": 89.51743698120117,
+        "wires": [
+            [
+                "a7b4182.154e9e8"
+            ]
+        ]
+    },
+    {
+        "id": "a7b4182.154e9e8",
+        "type": "function",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "CheckForAudio",
+        "func": "if (msg.transcription!==\"\")\n    return msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 758.8603363037109,
+        "y": 88.88213539123535,
+        "wires": [
+            [
+                "1a9cd85a.b9cfd8",
+                "e31fcedd.75dc2"
+            ]
+        ]
+    },
+    {
+        "id": "6c530bc0.06aae4",
+        "type": "inject",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "free: https://github.com/watson-developer-cloud (.wav)",
+        "topic": "",
+        "payload": "http://sd-2.archive-host.com/membres/up/102033098234604628/SpaceShuttle.wav",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 227,
+        "y": 81.15001106262207,
+        "wires": [
+            [
+                "90193fb3.a772f"
+            ]
+        ]
+    },
+    {
+        "id": "700c7089.27c3f",
+        "type": "inject",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "free: aacapps.com (.flac)",
+        "topic": "",
+        "payload": "https://archive.org/download/SampleVoiceRecordings-KimBorge/SampleVoices-KimBorge.flac",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 206.9906997680664,
+        "y": 125.00000381469726,
+        "wires": [
+            [
+                "90193fb3.a772f"
+            ]
+        ]
+    },
+    {
+        "id": "925dc0cf.06239",
+        "type": "inject",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "free: archive.org(.mp3)",
+        "topic": "",
+        "payload": "https://aacapps.com/lamp/sound/nicole.mp3",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 193.05117797851562,
+        "y": 168.7876377105713,
+        "wires": [
+            [
+                "90193fb3.a772f"
+            ]
+        ]
+    },
+    {
+        "id": "43a841b2.a059c",
+        "type": "microphone",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "x": 300.7933044433594,
+        "y": 25.056167602539062,
+        "wires": [
+            [
+                "90193fb3.a772f"
+            ]
+        ]
+    },
+    {
+        "id": "1a9cd85a.b9cfd8",
+        "type": "http response",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 951.5442352294922,
+        "y": 110.08271789550781,
+        "wires": []
+    },
+    {
+        "id": "e31fcedd.75dc2",
+        "type": "function",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "attach audio as attachments",
+        "func": "msg.payload = {\n  \"_attachments\": {\n    \"recording\": {\n      \"content_type\":\"audio/wav\",\n      \"data\": msg.payload\n    }\n  }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1004.5,
+        "y": 51,
+        "wires": [
+            [
+                "8e568ed8.b3dc1",
+                "4c9c537e.00ebac"
+            ]
+        ]
+    },
+    {
+        "id": "8e568ed8.b3dc1",
+        "type": "cloudant out",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "insert to database",
+        "cloudant": "",
+        "database": "sit737voiceTranscription",
+        "service": "sit737-speechToText-cloudantNoSQLDB",
+        "payonly": false,
+        "operation": "insert",
+        "x": 1279.9604263305664,
+        "y": 31.072275161743164,
+        "wires": []
+    },
+    {
+        "id": "4c9c537e.00ebac",
+        "type": "debug",
+        "z": "ed4b4b9a.3f43e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1243.7202949523925,
+        "y": 84.5775203704834,
+        "wires": []
+    }
+]
